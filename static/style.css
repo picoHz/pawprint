@@ -1,0 +1,12 @@
+html {
+    background-color: #ccc;
+}
+
+body {
+    font-family: 'Fira Code', monospace;
+}
+
+::selection {
+    color: white;
+    background-color: #555;
+}

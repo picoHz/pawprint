@@ -1,0 +1,82 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180x180.png">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta name="theme-color" content="#333333">
+    <title>Pawprint</title>
+    <meta property="og:title" content="Pawprint" />
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="A simple web app for inspecting TLS fingerprints">
+    <meta property="og:url" content="https://pawprint.dev/">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+
+  <body>
+    <div class="max-w-3xl mx-auto my-10 px-10">
+      <h1 class="text-4xl font-bold my-5">
+        <img class="inline mr-2" src="/pawprint.svg" />Pawprint
+      </h1>
+
+      <a class="underline" href="/index.json">JSON API</a>
+      <a class="underline" href="https://github.com/picoHz/pawprint">Source Code</a>
+
+      <h2 class="text-xl my-8">TLS Fingerprints</h2>
+
+      <% if let Some(tls) = &report.tls { %>
+        <div class="border-l-2 border-gray-900 px-3 my-8">
+          <h3 class="text-lg my-4">JA3</h3>
+          <ul class="my-4 break-all">
+            <li>
+              <span class="font-bold">MD5: </span>
+              <%= tls.ja3.md5 %>
+            </li>
+            <li>
+              <span class="font-bold">Text: </span>
+              <%= tls.ja3.str %>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="border-l-2 border-gray-900 px-3 my-8">
+          <h3 class="text-lg my-4">JA3 (Sorted extension list)</h3>
+          <p class="text-sm text-gray-800">This is a modified JA3 to address the shuffled TLS extension list used by some browsers.</p>
+          <ul class="my-4 break-all">
+            <li>
+              <span class="font-bold">MD5: </span>
+              <%= tls.ja3_sort_ext.md5 %>
+            </li>
+            <li>
+              <span class="font-bold">Text: </span>
+              <%= tls.ja3_sort_ext.str %>
+            </li>
+          </ul>
+        </div>
+      <% } else { %>
+        <div>Failed to get the TLS ClientHello.</div>
+      <% } %>
+
+    </div>
+  </body>
+</html>
