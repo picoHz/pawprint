@@ -14,6 +14,8 @@ struct IndexTemplate {
     report: Arc<Report>,
 }
 
+const IDENTICON_SIZE: usize = 32;
+
 pub async fn handle_request(
     req: Request<Body>,
     report: Arc<Report>,
@@ -42,7 +44,8 @@ pub async fn handle_request(
                 .flatten()
                 .unwrap_or_default();
             let seed = hex::decode(hex).unwrap_or_default();
-            let data = eth_blockies::eth_blockies_png_data(seed, (16, 16), true);
+            let data =
+                eth_blockies::eth_blockies_png_data(seed, (IDENTICON_SIZE, IDENTICON_SIZE), true);
             return Ok(Response::builder()
                 .header("Content-Type", "image/png")
                 .body(Body::from(data))
