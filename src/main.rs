@@ -12,11 +12,13 @@ use tokio_rustls::rustls::{self, Certificate, PrivateKey};
 use tokio_rustls::TlsAcceptor;
 
 mod handler;
+mod http2;
 mod ja3;
 mod report;
 mod tls;
 
 use handler::*;
+use http2::*;
 use report::*;
 use tls::*;
 
@@ -63,10 +65,13 @@ async fn main() -> Result<()> {
             let ctx = Arc::new(Report::new(stream.get_ref().0.client_hello()));
 
             tokio::task::spawn(async move {
+                let stream = Http2Inspector::new(stream);
+                let frames = stream.frames();
                 if let Err(http_err) = Http::new()
                     .serve_connection(
                         stream,
                         service_fn(|req: Request<Body>| {
+                            println!("{:?}", frames.lock().unwrap());
                             let ctx = ctx.clone();
                             async move { handle_request(req, ctx.clone()).await }
                         }),
