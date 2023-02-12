@@ -3,6 +3,7 @@ use http::{Request, Response, StatusCode};
 use hyper::Body;
 use include_dir::{include_dir, Dir};
 use sailfish::TemplateOnce;
+use serde_querystring::UrlEncodedQS;
 use std::{convert::Infallible, path::Path, sync::Arc};
 
 static STATIC_DIR: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/static");
@@ -32,7 +33,20 @@ pub async fn handle_request(
                 .body(Body::from(
                     serde_json::to_string_pretty(report.as_ref()).unwrap(),
                 ))
-                .unwrap())
+                .unwrap());
+        }
+        "/identicon.png" => {
+            let query = req.uri().query().unwrap_or_default();
+            let hex = UrlEncodedQS::parse(query.as_bytes())
+                .value(b"hex")
+                .flatten()
+                .unwrap_or_default();
+            let seed = hex::decode(hex).unwrap_or_default();
+            let data = eth_blockies::eth_blockies_png_data(seed, (16, 16), true);
+            return Ok(Response::builder()
+                .header("Content-Type", "image/png")
+                .body(Body::from(data))
+                .unwrap());
         }
         _ => {}
     }

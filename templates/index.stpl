@@ -46,7 +46,10 @@
 
       <% if let Some(tls) = &report.tls { %>
         <div class="border-l-2 border-gray-900 px-3 my-8">
-          <h3 class="text-lg my-4">JA3</h3>
+          <h3 class="text-lg my-4">
+            <img class="inline border-2 border-gray-800 rounded-xl" src="/identicon.png?hex=<%= tls.ja3.md5 %>" />
+            JA3
+          </h3>
           <ul class="my-4 break-all">
             <li>
               <span class="font-bold">MD5: </span>
@@ -60,7 +63,10 @@
         </div>
         
         <div class="border-l-2 border-gray-900 px-3 my-8">
-          <h3 class="text-lg my-4">JA3 (Sorted extension list)</h3>
+          <h3 class="text-lg my-4">
+            <img class="inline border-2 border-gray-800 rounded-xl" src="/identicon.png?hex=<%= tls.ja3_sort_ext.md5 %>" />
+            JA3 (Sorted extension list)
+          </h3>
           <p class="text-sm text-gray-800">This is a modified JA3 to address the shuffled TLS extension list used by some browsers.</p>
           <ul class="my-4 break-all">
             <li>

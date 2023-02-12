@@ -13,6 +13,8 @@ license = "AGPL-3.0"
 [dependencies]
 anyhow = "1.0.69"
 clap = { version = "4.1.4", features = ["derive"] }
+eth-blockies = "1.0.0"
+hex = "0.4.3"
 http = "0.2.8"
 hyper = { version = "0.14.24", features = ["server", "http1", "http2", "tcp"] }
 include_dir = "0.7.3"
@@ -22,6 +24,7 @@ rustls = "0.20.8"
 rustls-pemfile = "1.0.2"
 sailfish = "0.6.0"
 serde = "1.0.152"
+serde-querystring = "0.2.0"
 serde_derive = "1.0.152"
 serde_json = "1.0.93"
 tokio = { version = "1.25.0", features = ["macros", "rt-multi-thread", "net"] }
