@@ -14,7 +14,7 @@
     <title>Pawprint</title>
     <meta property="og:title" content="Pawprint" />
     <meta property="og:type" content="website">
-    <meta property="og:description" content="A simple web app for inspecting TLS fingerprints">
+    <meta property="og:description" content="A simple web app for inspecting TLS / HTTP/2 fingerprints">
     <meta property="og:url" content="https://pawprint.dev/">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,7 +57,7 @@
             <img class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= tls.ja3_sort_ext.md5 %>" />
             <h3 class="text-lg mx-4">JA3 (Sorted extension list)</h3>
           </div>
-          <p class="text-sm text-gray-800">This is a modified JA3 to address the shuffled TLS extension list used by some browsers.</p>
+          <p class="text-sm text-gray-800">Modified JA3 to address the shuffled TLS extension list used by some browsers.</p>
           <ul class="my-4 break-all">
             <li>
               <span class="font-bold">MD5: </span>
