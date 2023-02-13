@@ -160,7 +160,7 @@ impl TryFrom<(u8, u32, &[u8])> for HeadersFrame {
             fragment_offset += 1;
         }
         if flags & 0x20 != 0 {
-            fragment_offset += 4;
+            fragment_offset += 5;
         }
         if payload.len() < fragment_offset {
             return Err(());
