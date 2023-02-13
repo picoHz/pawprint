@@ -155,14 +155,23 @@ impl TryFrom<(u8, u32, &[u8])> for HeadersFrame {
 
     fn try_from((flags, stream_id, payload): (u8, u32, &[u8])) -> Result<Self, ()> {
         let mut fragment_offset = 4;
-        if flags & 0x8 != 0 {
+        let padded = flags & 0x8 != 0;
+        if padded {
             fragment_offset += 1;
         }
         if flags & 0x20 != 0 {
             fragment_offset += 1;
         }
+        if payload.len() < fragment_offset {
+            return Err(());
+        }
+        let padding_len = if padded { payload[0] as usize } else { 0 };
+        let data = &payload[fragment_offset..];
+        if data.len() < padding_len {
+            return Err(());
+        };
         let mut decoder = Decoder::default();
-        let mut buf = payload[fragment_offset..].to_vec();
+        let mut buf = data[..data.len() - padding_len].to_vec();
         let mut dst = Vec::new();
         if decoder.decode(&mut buf, &mut dst).is_err() {
             return Err(());
