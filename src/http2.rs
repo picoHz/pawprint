@@ -154,13 +154,13 @@ impl TryFrom<(u8, u32, &[u8])> for HeadersFrame {
     type Error = ();
 
     fn try_from((flags, stream_id, payload): (u8, u32, &[u8])) -> Result<Self, ()> {
-        let mut fragment_offset = 4;
+        let mut fragment_offset = 0;
         let padded = flags & 0x8 != 0;
         if padded {
             fragment_offset += 1;
         }
         if flags & 0x20 != 0 {
-            fragment_offset += 1;
+            fragment_offset += 4;
         }
         if payload.len() < fragment_offset {
             return Err(());
