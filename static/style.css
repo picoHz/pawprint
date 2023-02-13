@@ -10,3 +10,7 @@ body {
     color: white;
     background-color: #555;
 }
+
+img {
+    image-rendering: pixelated;
+}

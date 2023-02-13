@@ -26,7 +26,7 @@
   <body>
     <div class="max-w-3xl mx-auto my-10 px-10">
       <h1 class="text-4xl font-bold my-5">
-        <img class="inline mr-2" src="/pawprint.svg" />Pawprint
+        <img width="32" height="32" class="inline mr-2" src="/pawprint.svg" />Pawprint
       </h1>
 
       <a class="underline" href="/index.json">JSON API</a>
@@ -37,7 +37,7 @@
       <% if let Some(tls) = &report.tls { %>
         <div class="my-10">
           <div class="flex items-center my-4">
-            <img class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= tls.ja3.md5 %>" />
+            <img width="32" height="32" class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= tls.ja3.md5 %>" />
             <h3 class="text-lg mx-4">JA3</h3>
           </div>
           <ul class="my-4 break-all">
@@ -54,7 +54,7 @@
         
         <div class="my-10">
           <div class="flex items-center my-4">
-            <img class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= tls.ja3_sort_ext.md5 %>" />
+            <img width="32" height="32" class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= tls.ja3_sort_ext.md5 %>" />
             <h3 class="text-lg mx-4">JA3 (Sorted extension list)</h3>
           </div>
           <p class="text-sm text-gray-800">Modified JA3 to address the shuffled TLS extension list used by some browsers.</p>
@@ -78,7 +78,7 @@
       <% if let Some(http2) = &report.http2 { %>
         <div class="my-10">
           <div class="flex items-center my-4">
-            <img class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= http2.akamai.sha1 %>" />
+            <img width="32" height="32" class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= http2.akamai.sha1 %>" />
             <h3 class="text-lg mx-4">Akamai</h3>
           </div>
           <p class="text-sm text-gray-800">Suggested in <a class="underline" href="https://www.blackhat.com/docs/eu-17/materials/eu-17-Shuster-Passive-Fingerprinting-Of-HTTP2-Clients-wp.pdf">Passive Fingerprinting of HTTP/2 Clients</a>.</p>
