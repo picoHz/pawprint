@@ -1,10 +1,10 @@
 [package]
 name = "pawprint"
-version = "0.1.0"
+version = "0.2.0"
 description = "A simple web app for inspecting TLS / HTTP/2 fingerprints"
 edition = "2021"
 authors = ["picoHz <picoHz@outlook.com>"]
-keywords = ["tls", "ja3", "fingerprint"]
+keywords = ["tls", "http2", "h2", "ja3", "fingerprint"]
 categories = ["network-programming", "cryptography"]
 repository = "https://github.com/picoHz/pawprint"
 homepage = "https://pawprint.dev"
