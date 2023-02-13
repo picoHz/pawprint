@@ -47,7 +47,7 @@
             </li>
             <li>
               <span class="font-bold">Text: </span>
-              <%= tls.ja3.str %>
+              <%= tls.ja3.text %>
             </li>
           </ul>
         </div>
@@ -65,7 +65,7 @@
             </li>
             <li>
               <span class="font-bold">Text: </span>
-              <%= tls.ja3_sort_ext.str %>
+              <%= tls.ja3_sort_ext.text %>
             </li>
           </ul>
         </div>
@@ -89,7 +89,7 @@
             </li>
             <li>
               <span class="font-bold">Text: </span>
-              <%= http2.akamai.str %>
+              <%= http2.akamai.text %>
             </li>
           </ul>
         </div>

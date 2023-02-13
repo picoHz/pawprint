@@ -4,7 +4,7 @@ use serde_derive::Serialize;
 #[derive(Clone, Serialize)]
 pub struct Ja3 {
     pub md5: String,
-    pub str: String,
+    pub text: String,
 }
 
 impl Ja3 {
@@ -60,12 +60,12 @@ impl Ja3 {
             .collect::<Vec<_>>();
         let points = points.join("-");
 
-        let ja3 = format!("{version},{ciphers},{extensions},{curves},{points}");
-        let md5 = md5::compute(&ja3);
+        let text = format!("{version},{ciphers},{extensions},{curves},{points}");
+        let md5 = md5::compute(&text);
 
         Self {
             md5: format!("{md5:x}"),
-            str: ja3,
+            text,
         }
     }
 }

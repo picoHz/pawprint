@@ -5,7 +5,7 @@ use crate::http2::Frame;
 #[derive(Clone, Serialize)]
 pub struct Akamai {
     pub sha1: String,
-    pub str: String,
+    pub text: String,
 }
 
 impl Akamai {
@@ -58,10 +58,10 @@ impl Akamai {
         } else {
             format!("|{}", headers.join(","))
         };
-        let str = format!("{settings}|{window_update}|{priority_frames}{headers}");
+        let text = format!("{settings}|{window_update}|{priority_frames}{headers}");
         Self {
-            sha1: sha1_smol::Sha1::from(&str).hexdigest(),
-            str,
+            sha1: sha1_smol::Sha1::from(&text).hexdigest(),
+            text,
         }
     }
 }
