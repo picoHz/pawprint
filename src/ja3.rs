@@ -1,7 +1,7 @@
 use rustls::internal::msgs::handshake::{ClientExtension, ClientHelloPayload};
 use serde_derive::Serialize;
 
-#[derive(Serialize)]
+#[derive(Clone, Serialize)]
 pub struct Ja3 {
     pub md5: String,
     pub str: String,

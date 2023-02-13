@@ -4,21 +4,21 @@ use hyper::Body;
 use include_dir::{include_dir, Dir};
 use sailfish::TemplateOnce;
 use serde_querystring::UrlEncodedQS;
-use std::{convert::Infallible, path::Path, sync::Arc};
+use std::{convert::Infallible, path::Path};
 
 static STATIC_DIR: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/static");
 
 #[derive(TemplateOnce)]
 #[template(path = "index.stpl")]
 struct IndexTemplate {
-    report: Arc<Report>,
+    report: Report,
 }
 
 const IDENTICON_SIZE: usize = 32;
 
 pub async fn handle_request(
     req: Request<Body>,
-    report: Arc<Report>,
+    report: Report,
 ) -> Result<Response<Body>, Infallible> {
     let path = req.uri().path();
     match path {
@@ -32,9 +32,7 @@ pub async fn handle_request(
         "/index.json" => {
             return Ok(Response::builder()
                 .header("Content-Type", "application/json")
-                .body(Body::from(
-                    serde_json::to_string_pretty(report.as_ref()).unwrap(),
-                ))
+                .body(Body::from(serde_json::to_string_pretty(&report).unwrap()))
                 .unwrap());
         }
         "/identicon.png" => {

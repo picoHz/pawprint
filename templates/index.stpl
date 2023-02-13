@@ -73,6 +73,30 @@
         <div>Failed to get the TLS ClientHello.</div>
       <% } %>
 
+      <h2 class="text-xl mt-8 mb-4 font-bold">HTTP/2 Fingerprints</h2>
+
+      <% if let Some(http2) = &report.http2 { %>
+        <div class="my-10">
+          <div class="flex items-center my-4">
+            <img class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= http2.akamai.sha1 %>" />
+            <h3 class="text-lg mx-4">Akamai</h3>
+          </div>
+          <p class="text-sm text-gray-800">Suggested in <a class="underline" href="https://www.blackhat.com/docs/eu-17/materials/eu-17-Shuster-Passive-Fingerprinting-Of-HTTP2-Clients-wp.pdf">Passive Fingerprinting of HTTP/2 Clients</a>.</p>
+          <ul class="my-4 break-all">
+            <li>
+              <span class="font-bold">SHA-1: </span>
+              <%= http2.akamai.sha1 %>
+            </li>
+            <li>
+              <span class="font-bold">Text: </span>
+              <%= http2.akamai.str %>
+            </li>
+          </ul>
+        </div>
+      <% } else { %>
+        <div>Failed to get HTTP/2 Frames.</div>
+      <% } %>
+
     </div>
   </body>
 </html>
