@@ -70,6 +70,24 @@
             </li>
           </ul>
         </div>
+
+        <div class="my-10">
+          <div class="flex items-center my-4">
+            <img width="32" height="32" class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= tls.ts1.sha1 %>" />
+            <h3 class="text-lg mx-4">TS1</h3>
+          </div>
+          <p class="text-sm text-gray-800">Based on <a class="underline" href="https://github.com/lwthiker/ts1">lwthiker/ts1</a>.</p>
+          <ul class="my-4 break-all">
+            <li>
+              <span class="font-bold">SHA-1: </span>
+              <%= tls.ts1.sha1 %>
+            </li>
+            <li>
+              <span class="font-bold">Text: </span>
+              <%= tls.ts1.text %>
+            </li>
+          </ul>
+        </div>
       <% } else { %>
         <div>Failed to get the TLS ClientHello.</div>
       <% } %>

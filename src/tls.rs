@@ -1,8 +1,9 @@
-use rustls::internal::msgs::codec::Reader;
+use rustls::internal::msgs::codec::{Codec, Reader};
 use rustls::internal::msgs::handshake::{
     ClientHelloPayload, HandshakeMessagePayload, HandshakePayload,
 };
 use rustls::internal::msgs::message::{Message, MessagePayload, OpaqueMessage};
+use rustls::ProtocolVersion;
 use std::io::IoSlice;
 use std::pin::Pin;
 use std::task;
@@ -16,7 +17,7 @@ pin_project_lite::pin_project! {
         inner: TcpStream,
 
         buf: Vec<u8>,
-        client_hello: Option<ClientHelloPayload>,
+        handshake: Option<TlsHandshake>,
     }
 }
 
@@ -25,12 +26,12 @@ impl TlsInspctor {
         Self {
             inner,
             buf: Vec::new(),
-            client_hello: None,
+            handshake: None,
         }
     }
 
-    pub fn client_hello(&self) -> Option<&ClientHelloPayload> {
-        self.client_hello.as_ref()
+    pub fn handshake(&self) -> Option<&TlsHandshake> {
+        self.handshake.as_ref()
     }
 }
 
@@ -45,9 +46,9 @@ impl AsyncRead for TlsInspctor {
         let me = self.project();
         let poll = me.inner.poll_read(cx, buf);
 
-        if me.client_hello.is_none() {
+        if me.handshake.is_none() {
             me.buf.extend(&buf.filled()[len..]);
-            *me.client_hello = parse_client_hello(me.buf);
+            *me.handshake = parse_client_hello(me.buf);
         }
 
         poll
@@ -89,7 +90,7 @@ impl AsyncWrite for TlsInspctor {
     }
 }
 
-fn parse_client_hello(data: &[u8]) -> Option<ClientHelloPayload> {
+fn parse_client_hello(data: &[u8]) -> Option<TlsHandshake> {
     let mut reader = Reader::init(data);
     let msg = OpaqueMessage::read(&mut reader).ok()?;
     let msg = TryInto::<Message>::try_into(msg.into_plain_message()).ok()?;
@@ -102,8 +103,22 @@ fn parse_client_hello(data: &[u8]) -> Option<ClientHelloPayload> {
         ..
     } = msg.payload
     {
-        Some(payload)
+        let version = ProtocolVersion::read_bytes(&data[1..]).unwrap();
+        Some(TlsHandshake {
+            record_version: version,
+            hello: payload,
+        })
     } else {
         None
     }
+}
+
+#[derive(Debug)]
+pub struct TlsHandshake {
+    pub record_version: ProtocolVersion,
+    pub hello: ClientHelloPayload,
+}
+
+pub fn is_not_grease(v: &u16) -> bool {
+    *v & 0x0f0f != 0x0a0a
 }

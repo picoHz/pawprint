@@ -14,10 +14,10 @@ use tokio_rustls::TlsAcceptor;
 mod akamai;
 mod handler;
 mod http2;
-mod ts1;
 mod ja3;
 mod report;
 mod tls;
+mod ts1;
 
 use handler::*;
 use http2::*;
@@ -64,7 +64,7 @@ async fn main() -> Result<()> {
 
         let fut = async move {
             let stream = acceptor.accept(stream).await?;
-            let tls_report = stream.get_ref().0.client_hello().map(TlsReport::new);
+            let tls_report = stream.get_ref().0.handshake().map(TlsReport::new);
 
             tokio::task::spawn(async move {
                 let stream = Http2Inspector::new(stream);

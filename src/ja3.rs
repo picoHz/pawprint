@@ -1,6 +1,8 @@
 use rustls::internal::msgs::handshake::{ClientExtension, ClientHelloPayload};
 use serde_derive::Serialize;
 
+use crate::tls::is_not_grease;
+
 #[derive(Clone, Serialize)]
 pub struct Ja3 {
     pub md5: String,
@@ -68,8 +70,4 @@ impl Ja3 {
             text,
         }
     }
-}
-
-fn is_not_grease(v: &u16) -> bool {
-    *v & 0x0f0f != 0x0a0a
 }

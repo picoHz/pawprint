@@ -12,6 +12,7 @@ license = "AGPL-3.0"
 
 [dependencies]
 anyhow = "1.0.69"
+base64 = "0.21.0"
 clap = { version = "4.1.4", features = ["derive"] }
 eth-blockies = "1.0.0"
 hex = "0.4.3"
