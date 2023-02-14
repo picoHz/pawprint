@@ -40,7 +40,13 @@ fn canonical_json(value: Value) -> String {
                 .into_iter()
                 .collect::<BTreeMap<_, _>>()
                 .into_iter()
-                .map(|(key, value)| format!("{key}: {}", canonical_json(value)))
+                .map(|(key, value)| {
+                    format!(
+                        "{}: {}",
+                        Value::String(key),
+                        canonical_json(value)
+                    )
+                })
                 .collect::<Vec<_>>()
                 .join(", ");
             format!("{{{inner}}}")
