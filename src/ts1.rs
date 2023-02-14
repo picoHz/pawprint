@@ -1,8 +1,7 @@
-use std::collections::BTreeMap;
-
 use crate::http2::Frame;
 use serde_derive::Serialize;
 use serde_json::Value;
+use std::collections::BTreeMap;
 
 #[derive(Clone, Serialize)]
 pub struct Ts1Http2 {
@@ -12,6 +11,13 @@ pub struct Ts1Http2 {
 
 impl Ts1Http2 {
     pub fn new(frames: &[Frame]) -> Self {
+        let frames = frames
+            .iter()
+            .map(|frame| match frame {
+                Frame::Unknown(ty) => FrameSignature::Unnamed { frame_type: *ty },
+                _ => FrameSignature::Named(frame),
+            })
+            .collect::<Vec<_>>();
         let value = serde_json::to_value(frames).unwrap_or_default();
         let text = canonical_json(value);
         Self {
@@ -19,6 +25,13 @@ impl Ts1Http2 {
             text,
         }
     }
+}
+
+#[derive(Serialize)]
+#[serde(untagged)]
+enum FrameSignature<'a> {
+    Named(&'a Frame),
+    Unnamed { frame_type: u8 },
 }
 
 fn canonical_json(value: Value) -> String {

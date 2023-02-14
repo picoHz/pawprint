@@ -132,6 +132,7 @@ pub enum Frame {
     Settings(SettingsFrame),
     Priority(PriorityFrame),
     WindowUpdate(WindowUpdateFrame),
+    Unknown(u8),
 }
 
 impl TryFrom<(u8, u8, u32, &[u8])> for Frame {
@@ -143,7 +144,7 @@ impl TryFrom<(u8, u8, u32, &[u8])> for Frame {
             0x2 => (stream_id, payload).try_into().map(Frame::Priority),
             0x4 => (stream_id, payload).try_into().map(Frame::Settings),
             0x8 => (stream_id, payload).try_into().map(Frame::WindowUpdate),
-            _ => Err(()),
+            _ => Ok(Frame::Unknown(ty)),
         }
     }
 }

@@ -45,6 +45,7 @@ impl Akamai {
                         })
                         .collect::<Vec<_>>();
                 }
+                _ => (),
             }
         }
         let settings = settings.join(";");
