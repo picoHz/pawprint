@@ -1,5 +1,6 @@
 use crate::tls::TlsInspctor;
 use httlib_hpack::Decoder;
+use serde::ser::SerializeMap;
 use serde_derive::Serialize;
 use std::pin::Pin;
 use std::sync::Mutex;
@@ -203,10 +204,27 @@ pub struct SettingsFrame {
     pub settings: Vec<Setting>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug)]
 pub struct Setting {
     pub id: u16,
     pub value: u32,
+}
+
+impl serde::Serialize for Setting {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let mut map = serializer.serialize_map(Some(2))?;
+        if (1..=6).contains(&self.id) {
+            map.serialize_entry("id", &self.id)?;
+            map.serialize_entry("value", &self.value)?;
+        } else {
+            map.serialize_entry("id", "GREASE")?;
+            map.serialize_entry("value", "GREASE")?;
+        }
+        map.end()
+    }
 }
 
 impl TryFrom<(u32, &[u8])> for SettingsFrame {
