@@ -50,12 +50,16 @@ impl AsyncRead for Http2Inspector {
         let not_http2 = me.buf.len() >= plen && !me.buf.starts_with(HTTP2_PREFACE);
         if !not_http2 {
             me.buf.extend(&buf.filled()[len..]);
+            let mut frames = me.frames.lock().unwrap();
             while me.buf.len() > plen {
+                if matches!(frames.last(), Some(Frame::Headers(_))) {
+                    break;
+                }
                 let (frame_len, frame) = parse_frame(&me.buf[plen..]);
                 if frame_len > 0 {
                     me.buf.drain(plen..plen + frame_len);
                     if let Some(frame) = frame {
-                        me.frames.lock().unwrap().push(frame);
+                        frames.push(frame);
                     }
                 } else {
                     break;
