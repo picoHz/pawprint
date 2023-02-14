@@ -14,6 +14,7 @@ use tokio_rustls::TlsAcceptor;
 mod akamai;
 mod handler;
 mod http2;
+mod ts1;
 mod ja3;
 mod report;
 mod tls;

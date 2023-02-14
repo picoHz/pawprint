@@ -1,7 +1,7 @@
 use rustls::internal::msgs::handshake::ClientHelloPayload;
 use serde_derive::Serialize;
 
-use crate::{akamai::Akamai, http2::Frame, ja3::Ja3};
+use crate::{akamai::Akamai, http2::Frame, ja3::Ja3, ts1::Ts1Http2};
 
 #[derive(Clone, Serialize)]
 pub struct Report {
@@ -27,6 +27,7 @@ impl TlsReport {
 #[derive(Clone, Serialize)]
 pub struct Http2Report {
     pub akamai: Akamai,
+    pub ts1: Ts1Http2,
 }
 
 impl Http2Report {
@@ -36,6 +37,7 @@ impl Http2Report {
         } else {
             Some(Self {
                 akamai: Akamai::new(frames),
+                ts1: Ts1Http2::new(frames),
             })
         }
     }
