@@ -1,6 +1,6 @@
 [package]
 name = "pawprint"
-version = "0.2.0"
+version = "0.3.0"
 description = "A simple web app for inspecting TLS / HTTP/2 fingerprints"
 edition = "2021"
 authors = ["picoHz <picoHz@outlook.com>"]
