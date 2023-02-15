@@ -87,6 +87,35 @@
         <div>Failed to get HTTP/2 Frames.</div>
       <% } %>
 
+  
+      <h2 class="text-xl mt-10 font-bold">Browser Fingerprints</h2>
+
+      <div id="fingerprintjs" class="hidden my-5">
+        <div class="flex items-center my-2">
+          <img width="32" height="32" class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=00" />
+          <h3 class="text-lg mx-4">FingerprintJS</h3>
+        </div>
+        <span class="hashvalue break-all"></span>
+        <textarea class="textvalue w-full my-2 px-2 py-1 text-sm text-gray-900 bg-gray-200 border-0 rounded"></textarea>
+        <p class="text-sm text-gray-800">Reference: <a class="underline" href="https://github.com/fingerprintjs/fingerprintjs">fingerprintjs/fingerprintjs</a>.</p>
+      </div>
+
+      <script>
+        const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3')
+          .then(FingerprintJS => FingerprintJS.load())
+
+        fpPromise
+          .then(fp => fp.get())
+          .then(result => {
+            const { visitorId, components } = result;
+            const fpjs = document.querySelector('#fingerprintjs');
+            fpjs.querySelector('img').setAttribute('src', `/identicon.png?hex=${visitorId}`);
+            fpjs.querySelector('.hashvalue').textContent = visitorId;
+            fpjs.querySelector('.textvalue').textContent = JSON.stringify(components);
+            fpjs.classList.remove('hidden');
+          })
+      </script>
+
     </div>
   </body>
 </html>
