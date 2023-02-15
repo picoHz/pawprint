@@ -25,92 +25,63 @@
   </head>
 
   <body>
-    <div class="max-w-3xl mx-auto my-10 px-10">
+    <div class="max-w-3xl mx-auto sm:my-10 my-5 sm:px-10 px-5">
       <h1 class="text-4xl font-bold my-5">
         <img width="32" height="32" class="inline mr-2" src="/pawprint.svg" />Pawprint
       </h1>
 
+      <p class="text-sm text-gray-800">
+        Pawprint is a simple web app for inspecting TLS / HTTP/2 fingerprints.
+      </p>
       <a class="underline" href="/index.json">JSON API</a>
       <a class="underline" href="https://github.com/picoHz/pawprint">Source Code</a>
 
-      <h2 class="text-xl mt-8 mb-4 font-bold">TLS Fingerprints</h2>
-
+      <h2 class="text-xl mt-10 font-bold">TLS Fingerprints</h2>
       <% if let Some(tls) = &report.tls { %>
-        <div class="my-10">
-          <div class="flex items-center my-4">
+        <div class="my-5">
+          <div class="flex items-center my-2">
             <img width="32" height="32" class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= tls.ja3.md5 %>" />
             <h3 class="text-lg mx-4">JA3</h3>
           </div>
-          <ul class="my-4 break-all">
-            <li>
-              <span class="font-bold">MD5: </span>
-              <%= tls.ja3.md5 %>
-            </li>
-            <li>
-              <span class="font-bold">Text: </span>
-              <%= tls.ja3.text %>
-            </li>
-          </ul>
+          <span class="break-all"><%= tls.ja3.md5 %></span>
+          <textarea class="w-full my-2 px-2 py-1 text-sm text-gray-900 bg-gray-200 border-0 rounded"><%= tls.ja3.text %></textarea>
+          <p class="text-sm text-gray-800">Reference: <a class="underline" href="https://github.com/salesforce/ja3">salesforce/ja3</a>.</p>
         </div>
-        
-        <div class="my-10">
-          <div class="flex items-center my-4">
+
+        <div class="my-5">
+          <div class="flex items-center my-2">
             <img width="32" height="32" class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= tls.ja3_sort_ext.md5 %>" />
             <h3 class="text-lg mx-4">JA3 (Sorted extension list)</h3>
           </div>
+          <span class="break-all"><%= tls.ja3_sort_ext.md5 %></span>
+          <textarea class="w-full my-2 px-2 py-1 text-sm text-gray-900 bg-gray-200 border-0 rounded"><%= tls.ja3_sort_ext.text %></textarea>
           <p class="text-sm text-gray-800">Modified JA3 to address the shuffled TLS extension list used by some browsers.</p>
-          <ul class="my-4 break-all">
-            <li>
-              <span class="font-bold">MD5: </span>
-              <%= tls.ja3_sort_ext.md5 %>
-            </li>
-            <li>
-              <span class="font-bold">Text: </span>
-              <%= tls.ja3_sort_ext.text %>
-            </li>
-          </ul>
         </div>
       <% } else { %>
         <div>Failed to get the TLS ClientHello.</div>
       <% } %>
 
-      <h2 class="text-xl mt-8 mb-4 font-bold">HTTP/2 Fingerprints</h2>
+      <h2 class="text-xl mt-10 font-bold">HTTP/2 Fingerprints</h2>
 
       <% if let Some(http2) = &report.http2 { %>
-        <div class="my-10">
-          <div class="flex items-center my-4">
+        <div class="my-5">
+          <div class="flex items-center my-2">
             <img width="32" height="32" class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= http2.akamai.sha1 %>" />
             <h3 class="text-lg mx-4">Akamai</h3>
           </div>
-          <p class="text-sm text-gray-800">Suggested in <a class="underline" href="https://www.blackhat.com/docs/eu-17/materials/eu-17-Shuster-Passive-Fingerprinting-Of-HTTP2-Clients-wp.pdf">Passive Fingerprinting of HTTP/2 Clients</a>.</p>
-          <ul class="my-4 break-all">
-            <li>
-              <span class="font-bold">SHA-1: </span>
-              <%= http2.akamai.sha1 %>
-            </li>
-            <li>
-              <span class="font-bold">Text: </span>
-              <%= http2.akamai.text %>
-            </li>
-          </ul>
+          <span class="break-all"><%= http2.akamai.sha1 %></span>
+          <textarea class="w-full my-2 px-2 py-1 text-sm text-gray-900 bg-gray-200 border-0 rounded"><%= http2.akamai.text %></textarea>
+          <p class="text-sm text-gray-800">Reference: <a class="underline" href="https://www.blackhat.com/docs/eu-17/materials/eu-17-Shuster-Passive-Fingerprinting-Of-HTTP2-Clients-wp.pdf">Passive Fingerprinting of HTTP/2 Clients</a>.</p>
         </div>
 
-        <div class="my-10">
-          <div class="flex items-center my-4">
+        <div class="my-5">
+          <div class="flex items-center my-2">
             <img width="32" height="32" class="inline border-2 border-gray-800 rounded" src="/identicon.png?hex=<%= http2.ts1.sha1 %>" />
             <h3 class="text-lg mx-4">TS1</h3>
           </div>
-          <p class="text-sm text-gray-800">Based on <a class="underline" href="https://github.com/lwthiker/ts1">lwthiker/ts1</a>.</p>
-          <ul class="my-4 break-all">
-            <li>
-              <span class="font-bold">SHA-1: </span>
-              <%= http2.ts1.sha1 %>
-            </li>
-            <li>
-              <span class="font-bold">Text: </span>
-              <%= http2.ts1.text %>
-            </li>
-          </ul>
+          <span class="break-all"><%= http2.ts1.sha1 %></span>
+          <textarea class="w-full my-2 px-2 py-1 text-sm text-gray-900 bg-gray-200 border-0 rounded"><%= http2.ts1.text %></textarea>
+          <p class="text-sm text-gray-800">Reference: <a class="underline" href="https://github.com/lwthiker/ts1">lwthiker/ts1</a>.</p>
         </div>
       <% } else { %>
         <div>Failed to get HTTP/2 Frames.</div>
