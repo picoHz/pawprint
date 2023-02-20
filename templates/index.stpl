@@ -88,7 +88,7 @@
       <% } %>
 
   
-      <h2 class="text-xl mt-10 font-bold">Browser Fingerprints</h2>
+      <h2 class="text-xl mt-10 font-bold">Client-side Fingerprints</h2>
 
       <div id="fingerprintjs" class="hidden my-5">
         <div class="flex items-center my-2">
@@ -100,11 +100,15 @@
         <p class="text-sm text-gray-800">Reference: <a class="underline" href="https://github.com/fingerprintjs/fingerprintjs">fingerprintjs/fingerprintjs</a>.</p>
       </div>
 
-      <script>
-        const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3')
-          .then(FingerprintJS => FingerprintJS.load())
+      <div id="jserror" class="error hidden my-5">Failed to get fingerprints.</div>
 
-        fpPromise
+      <noscript>
+        <div class="my-5">JavaScript is disabled.</div>
+      </noscript>
+
+      <script>
+        import('https://openfpcdn.io/fingerprintjs/v3')
+          .then(FingerprintJS => FingerprintJS.load())
           .then(fp => fp.get())
           .then(result => {
             const { visitorId, components } = result;
@@ -113,6 +117,9 @@
             fpjs.querySelector('.hashvalue').textContent = visitorId;
             fpjs.querySelector('.textvalue').textContent = JSON.stringify(components);
             fpjs.classList.remove('hidden');
+          })
+          .catch(err => {
+            document.querySelector('#jserror').classList.remove('hidden');
           })
       </script>
 
