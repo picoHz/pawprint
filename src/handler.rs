@@ -71,12 +71,7 @@ fn path_to_mime(path: &str) -> &'static str {
         .unwrap_or_default()
         .to_str()
         .unwrap_or_default();
-    match ext {
-        "css" => "text/css",
-        "png" => "image/png",
-        "svg" => "image/svg+xml",
-        "ico" => "image/x-icon",
-        "xml" | "webmanifest" => "application/xml",
-        _ => "application/octet-stream",
-    }
+    mimext::ext_to_mime(ext)
+        .get(0)
+        .unwrap_or(&"application/octet-stream")
 }

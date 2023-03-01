@@ -20,6 +20,7 @@ http = "0.2.8"
 hyper = { version = "0.14.24", features = ["server", "http1", "http2", "tcp"] }
 include_dir = "0.7.3"
 md5 = "0.7.0"
+mimext = "0.1.1"
 pin-project-lite = "0.2.9"
 rustls = "0.20.8"
 rustls-pemfile = "1.0.2"
